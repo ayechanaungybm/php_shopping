@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 require "../config/config.php";
 require "../config/common.php";
+
 if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
