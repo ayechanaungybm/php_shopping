@@ -31,7 +31,7 @@ if (!empty($_POST['search'])) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Category Lists</h3>
+                <h3 class="card-title">Order Lists</h3>
               </div>
               <!-- /.card-header -->
               <?php
@@ -54,9 +54,7 @@ if (!empty($_POST['search'])) {
                ?>
               <div class="card-body">
 
-                <div>
-                  <a href="cat_add.php" type="button" class="btn btn-success">Created New</a>
-                </div>
+                
                 <br>
                 <table class="table table-bordered">
                   <thead>

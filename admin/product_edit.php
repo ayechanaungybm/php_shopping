@@ -47,52 +47,54 @@ if ($_POST) {
       $priceError = 'Price should be integer value';
     }
 
+    if($qtyError == '' && $priceError == ''){
 
-      if ($_FILES['image']['name'] != null) {
-      $file = 'images/'.($_FILES['image']['name']);
-      $imageType = pathinfo($file,PATHINFO_EXTENSION);
+            if ($_FILES['image']['name'] != null) {
+            $file = 'images/'.($_FILES['image']['name']);
+            $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
-      if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
-        echo "<script>alert('Image should be jpg,jpeg,png');</script>";
-      }else{ //image validation success
-        $name = $_POST['name'];
-        $desc = $_POST['description'];
-        $category = $_POST['category'];
-        $qty = $_POST['quantity'];
-        $price = $_POST['price'];
-        $image = $_FILES['image']['name'];
-        $id = $_POST['id'];
+            if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
+              echo "<script>alert('Image should be jpg,jpeg,png');</script>";
+            }else{ //image validation success
+              $name = $_POST['name'];
+              $desc = $_POST['description'];
+              $category = $_POST['category'];
+              $qty = $_POST['quantity'];
+              $price = $_POST['price'];
+              $image = $_FILES['image']['name'];
+              $id = $_POST['id'];
 
-        move_uploaded_file($_FILES['image']['tmp_name'],$file);
+              move_uploaded_file($_FILES['image']['tmp_name'],$file);
 
-        $stmt = $pdo->prepare("UPDATE products SET name=:name,description=:description,category_id=:category,
-                              price=:price,quantity=:quantity,image=:image WHERE id=:id");
+              $stmt = $pdo->prepare("UPDATE products SET name=:name,description=:description,category_id=:category,
+                                    price=:price,quantity=:quantity,image=:image WHERE id=:id");
 
-        $result = $stmt->execute(
-            array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':image'=>$image,':id'=>$id)
-        );
+              $result = $stmt->execute(
+                  array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':image'=>$image,':id'=>$id)
+              );
 
-        if ($result) {
-          echo "<script>alert('Product is updated');window.location.href='index.php';</script>";
-        }
-      }
-      }else{
-        $name = $_POST['name'];
-        $desc = $_POST['description'];
-        $category = $_POST['category'];
-        $qty = $_POST['quantity'];
-        $price = $_POST['price'];
-        $id = $_POST['id'];
+              if ($result) {
+                echo "<script>alert('Product is updated');window.location.href='index.php';</script>";
+              }
+            }
+            }else{
+              $name = $_POST['name'];
+              $desc = $_POST['description'];
+              $category = $_POST['category'];
+              $qty = $_POST['quantity'];
+              $price = $_POST['price'];
+              $id = $_POST['id'];
 
-        $stmt = $pdo->prepare("UPDATE products SET name=:name,description=:description,category_id=:category,
-                              price=:price,quantity=:quantity WHERE id=:id");
-        $result = $stmt->execute(
-            array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':id'=>$id)
-        );
-        if ($result) {
-          echo "<script>alert('Product is updated');window.location.href='index.php';</script>";
-        }
-      }
+              $stmt = $pdo->prepare("UPDATE products SET name=:name,description=:description,category_id=:category,
+                                    price=:price,quantity=:quantity WHERE id=:id");
+              $result = $stmt->execute(
+                  array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':id'=>$id)
+              );
+              if ($result) {
+                echo "<script>alert('Product is updated');window.location.href='index.php';</script>";
+              }
+            }
+    }
 
 
   }

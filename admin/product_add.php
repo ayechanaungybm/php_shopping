@@ -50,31 +50,34 @@ if($_POST){
           $priceError = 'Price should be integer value';
         }
 
-        $file='images/'.($_FILES['image']['name']);
-        $imgType=pathinfo($file,PATHINFO_EXTENSION);
+        if($qtyError=='' && $priceError==''){
+          $file='images/'.($_FILES['image']['name']);
+          $imgType=pathinfo($file,PATHINFO_EXTENSION);
 
-        if($imgType!='jpg' && $imgType!='jpeg' && $imgType!='png'){
-          echo "<script>alert('Image must be jpg,jpeg,png.')</script>";
-        }else {
-          $name=$_POST['name'];
-          $desc=$_POST['description'];
-          $category=$_POST['category'];
-          $qty=$_POST['quantity'];
-          $price=$_POST['price'];
-          $image=$_FILES['image']['name'];
+          if($imgType!='jpg' && $imgType!='jpeg' && $imgType!='png'){
+            echo "<script>alert('Image must be jpg,jpeg,png.')</script>";
+          }else {
+            $name=$_POST['name'];
+            $desc=$_POST['description'];
+            $category=$_POST['category'];
+            $qty=$_POST['quantity'];
+            $price=$_POST['price'];
+            $image=$_FILES['image']['name'];
 
-          move_uploaded_file($_FILES['image']['tmp_name'],$file);
+            move_uploaded_file($_FILES['image']['tmp_name'],$file);
 
-          $stmt=$pdo->prepare("INSERT INTO products(name,description,category_id,quantity,price,image) VALUES(:name,:description,:category_id,:quantity,:price,:image)");
+            $stmt=$pdo->prepare("INSERT INTO products(name,description,category_id,quantity,price,image) VALUES(:name,:description,:category_id,:quantity,:price,:image)");
 
-          $result=$stmt->execute(
-              array(':name'=>$name,':description'=>$desc,':category_id'=>$category,':quantity'=>$qty,':price'=>$price,':image'=>$image)
+            $result=$stmt->execute(
+                array(':name'=>$name,':description'=>$desc,':category_id'=>$category,':quantity'=>$qty,':price'=>$price,':image'=>$image)
 
-            );
-          if($result){
-              echo "<script>alert('Product sucessfully added');window.location.href='index.php'</script>";
+              );
+            if($result){
+                echo "<script>alert('Product sucessfully added');window.location.href='index.php'</script>";
+            }
           }
         }
+
 
 
 
@@ -119,11 +122,11 @@ if($_POST){
                     </div>
                     <div class="form-group">
                         <label for="">Quantity</label><p style="color:red"><?php echo empty($qtyError)  ? '':'*'.$qtyError; ?></p>
-                        <input type="number" class="form-conrol" name="quantity" value="">
+                        <input type="text" class="form-conrol" name="quantity" value="">
                     </div>
                     <div class="form-group">
                         <label for="">Price</label><p style="color:red"><?php echo empty($priceError)  ? '':'*'.$priceError; ?></p>
-                          <input type="number" class="form-conrol" name="price" value="">
+                          <input type="text" class="form-conrol" name="price" value="">
                     </div>
                     <div class="form-group">
                         <label for="">Image</label><p style="color:red"><?php echo empty($imgError)  ? '':'*'.$imgError; ?></p>
